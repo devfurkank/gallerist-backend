@@ -1,17 +1,27 @@
 package dev.furkankeskin.service.impl;
 
 import dev.furkankeskin.dto.AuthRequest;
+import dev.furkankeskin.dto.AuthResponse;
 import dev.furkankeskin.dto.UserDTO;
+import dev.furkankeskin.exception.BaseException;
+import dev.furkankeskin.exception.ErrorMessage;
+import dev.furkankeskin.exception.MessageType;
+import dev.furkankeskin.jwt.JWTService;
+import dev.furkankeskin.model.RefreshToken;
 import dev.furkankeskin.model.User;
+import dev.furkankeskin.repository.RefreshTokenRepository;
 import dev.furkankeskin.repository.UserRepository;
 import dev.furkankeskin.service.IAuthenticationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthenticationServiceImpl implements IAuthenticationService {
@@ -20,16 +30,32 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
     private UserRepository userRepository;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private RefreshTokenRepository refreshTokenRepository;
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
+
+    @Autowired
+    private JWTService jwtService;
 
     private User createUser(AuthRequest input) {
         User user = new User();
         user.setCreateTime(new Date());
         user.setUsername(input.getUsername());
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
+        user.setPassword(bCryptPasswordEncoder.encode(input.getPassword()));
         return user;
+    }
+
+    private RefreshToken createRefreshToken(User user) {
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setUser(user);
+        refreshToken.setCreateTime(new Date());
+        refreshToken.setExpiredDate(new Date(System.currentTimeMillis() + 3600 * 1000 * 4));
+        refreshToken.setRefreshToken(UUID.randomUUID().toString());
+        return refreshToken;
     }
 
     @Override
@@ -40,5 +66,21 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
 
         BeanUtils.copyProperties(savedUser, userDTO);
         return userDTO;
+    }
+
+    @Override
+    public AuthResponse authenticate(AuthRequest input) {
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(input.getUsername(), input.getPassword());
+            authenticationProvider.authenticate(authenticationToken);
+
+            Optional<User> optionalUser = userRepository.findByUsername(input.getUsername());
+            String accessToken = jwtService.generateToken(optionalUser.get());
+            RefreshToken savedRefreshToken = refreshTokenRepository.save(createRefreshToken(optionalUser.get()));
+
+            return new  AuthResponse(accessToken, savedRefreshToken.getRefreshToken());
+        }catch (Exception e) {
+            throw new BaseException(new ErrorMessage(e.getMessage(), MessageType.USERNAME_OR_PASSWORD_INVALID));
+        }
     }
 }
