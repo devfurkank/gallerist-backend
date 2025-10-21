@@ -1,4 +1,8 @@
 package dev.furkankeskin.service.impl;
 
-public class AddressServiceImpl {
+import dev.furkankeskin.service.IAddressService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AddressServiceImpl implements IAddressService {
 }
