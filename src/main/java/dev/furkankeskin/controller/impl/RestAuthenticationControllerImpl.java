@@ -5,6 +5,7 @@ import dev.furkankeskin.controller.RestBaseController;
 import dev.furkankeskin.controller.RootEntity;
 import dev.furkankeskin.dto.AuthRequest;
 import dev.furkankeskin.dto.AuthResponse;
+import dev.furkankeskin.dto.RefreshTokenRequest;
 import dev.furkankeskin.dto.UserDTO;
 import dev.furkankeskin.service.IAuthenticationService;
 import jakarta.validation.Valid;
@@ -29,5 +30,11 @@ public class RestAuthenticationControllerImpl extends RestBaseController impleme
     @Override
     public RootEntity<AuthResponse> authenticate(@Valid @RequestBody AuthRequest input) {
         return ok(authenticationService.authenticate(input));
+    }
+
+    @PostMapping("/refresh_token")
+    @Override
+    public RootEntity<AuthResponse> refreshToken(@Valid @RequestBody RefreshTokenRequest input) {
+        return ok(authenticationService.refreshToken(input));
     }
 }

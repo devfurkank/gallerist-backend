@@ -2,6 +2,7 @@ package dev.furkankeskin.service.impl;
 
 import dev.furkankeskin.dto.AuthRequest;
 import dev.furkankeskin.dto.AuthResponse;
+import dev.furkankeskin.dto.RefreshTokenRequest;
 import dev.furkankeskin.dto.UserDTO;
 import dev.furkankeskin.exception.BaseException;
 import dev.furkankeskin.exception.ErrorMessage;
@@ -82,5 +83,27 @@ public class AuthenticationServiceImpl implements IAuthenticationService {
         }catch (Exception e) {
             throw new BaseException(new ErrorMessage(e.getMessage(), MessageType.USERNAME_OR_PASSWORD_INVALID));
         }
+    }
+
+    public boolean isValidRefreshToken(Date expiredDate) {
+        return new Date().before(expiredDate);
+    }
+
+    @Override
+    public AuthResponse refreshToken(RefreshTokenRequest input) {
+        Optional<RefreshToken> optionalRefreshToken = refreshTokenRepository.findByRefreshToken(input.getRefreshToken());
+        if (optionalRefreshToken.isEmpty()) {
+            throw new BaseException(new ErrorMessage(input.getRefreshToken(), MessageType.REFRESH_TOKEN_NOT_FOUND));
+        }
+
+        if (!isValidRefreshToken(optionalRefreshToken.get().getExpiredDate())){
+            throw new BaseException(new  ErrorMessage(input.getRefreshToken(), MessageType.REFRESH_TOKEN_IS_EXPIRED));
+        }
+
+        User user = optionalRefreshToken.get().getUser();
+        String accessToken = jwtService.generateToken(user);
+        RefreshToken savedRefreshToken = refreshTokenRepository.save(createRefreshToken(user));
+
+        return new  AuthResponse(accessToken, savedRefreshToken.getRefreshToken());
     }
 }
