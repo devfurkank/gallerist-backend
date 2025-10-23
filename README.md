@@ -584,7 +584,7 @@ Bu proje özel bir projedir ve tüm hakları saklıdır.
 ## 👨‍💻 Geliştirici
 
 **Furkan Keskin**
-- GitHub: [@furkankeskin](https://github.com/furkankeskin)
+- GitHub: [@furkankeskin](https://github.com/devfurkank)
 
 ## 🤝 Katkıda Bulunma
 
