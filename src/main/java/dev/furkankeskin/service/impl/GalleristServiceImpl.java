@@ -15,7 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,5 +55,58 @@ public class GalleristServiceImpl implements IGalleristService {
 
         galleristDTO.setAddress(addressDTO);
         return galleristDTO;
+    }
+
+    @Override
+    public List<GalleristDTO> getAllGallerists() {
+        List<Gallerist> gallerists = galleristRepository.findAll();
+        List<GalleristDTO> galleristDTOList = new ArrayList<>();
+        for (Gallerist gallerist : gallerists) {
+            GalleristDTO galleristDTO = new GalleristDTO();
+            AddressDTO addressDTO = new AddressDTO();
+
+            BeanUtils.copyProperties(gallerist, galleristDTO);
+            BeanUtils.copyProperties(gallerist.getAddress(), addressDTO);
+
+            galleristDTO.setAddress(addressDTO);
+            galleristDTOList.add(galleristDTO);
+        }
+        return galleristDTOList;
+    }
+
+    @Override
+    public GalleristDTO updateGallerist(Long id, GalleristDTOIU galleristDTOIU) {
+        Optional<Gallerist> optionalGallerist = galleristRepository.findById(id);
+        if (optionalGallerist.isEmpty()) {
+            throw new BaseException(new ErrorMessage(id.toString(),  MessageType.NO_RECORD_EXIST));
+        }
+        Optional<Address> optionalAddress = addressRepository.findById(galleristDTOIU.getAddressId());
+        if (optionalAddress.isEmpty()) {
+            throw new BaseException(new ErrorMessage(galleristDTOIU.getAddressId().toString(),  MessageType.NO_RECORD_EXIST));
+        }
+        Gallerist existingGallerist = optionalGallerist.get();
+        existingGallerist.setFirstName(galleristDTOIU.getFirstName());
+        existingGallerist.setLastName(galleristDTOIU.getLastName());
+        existingGallerist.setAddress(optionalAddress.get());
+
+        Gallerist updatedGallerist = galleristRepository.save(existingGallerist);
+
+        GalleristDTO galleristDTO = new GalleristDTO();
+        AddressDTO addressDTO = new AddressDTO();
+        BeanUtils.copyProperties(updatedGallerist, galleristDTO);
+        BeanUtils.copyProperties(updatedGallerist.getAddress(), addressDTO);
+
+        galleristDTO.setAddress(addressDTO);
+        return galleristDTO;
+    }
+
+    @Override
+    public String deleteGallerist(Long id) {
+        Optional<Gallerist> optionalGallerist = galleristRepository.findById(id);
+        if (optionalGallerist.isEmpty()) {
+            throw new BaseException(new ErrorMessage(id.toString(),  MessageType.NO_RECORD_EXIST));
+        }
+        galleristRepository.deleteById(id);
+        return "Galerici başarıyla silindi!";
     }
 }

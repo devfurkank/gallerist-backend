@@ -31,7 +31,7 @@ public class RestCarControllerImpl extends RestBaseController implements IRestCa
         return ok(carService.getAllCars());
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     @Override
     public RootEntity<CarDTO> updateCar(@PathVariable Long id, @Valid @RequestBody CarDTOIU carDTOIU) {
         return ok(carService.updateCar(id, carDTOIU));
