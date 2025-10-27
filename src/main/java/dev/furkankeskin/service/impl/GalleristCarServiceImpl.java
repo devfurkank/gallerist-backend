@@ -13,10 +13,11 @@ import dev.furkankeskin.repository.GalleristRepository;
 import dev.furkankeskin.service.IGalleristCarService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -69,5 +70,78 @@ public class GalleristCarServiceImpl implements IGalleristCarService {
         return galleristCarDTO;
 
 
+    }
+
+    @Override
+    public List<GalleristCarDTO> getAllGalleristCars() {
+        List<GalleristCar> galleristCars = galleristCarRepository.findAll();
+        List<GalleristCarDTO> galleristCarDTOList = new ArrayList<>();
+        for (GalleristCar galleristCar : galleristCars) {
+            GalleristCarDTO galleristCarDTO = new GalleristCarDTO();
+            GalleristDTO  galleristDTO = new GalleristDTO();
+            CarDTO carDTO = new CarDTO();
+            AddressDTO addressDTO = new AddressDTO();
+
+            BeanUtils.copyProperties(galleristCar, galleristCarDTO);
+            BeanUtils.copyProperties(galleristCar.getGallerist(), galleristDTO);
+            BeanUtils.copyProperties(galleristCar.getCar(), carDTO);
+            BeanUtils.copyProperties(galleristCar.getGallerist().getAddress(), addressDTO);
+
+            galleristDTO.setAddress(addressDTO);
+            galleristCarDTO.setGallerist(galleristDTO);
+            galleristCarDTO.setCar(carDTO);
+            galleristCarDTOList.add(galleristCarDTO);
+        }
+        return galleristCarDTOList;
+    }
+
+    @Override
+    public GalleristCarDTO updateGalleristCar(Long id, GalleristCarDTOIU galleristCarDTOIU) {
+        Optional<GalleristCar> optionalGalleristCar = galleristCarRepository.findById(id);
+        if (optionalGalleristCar.isEmpty()) {
+            throw new BaseException(new ErrorMessage(id.toString(), MessageType.NO_RECORD_EXIST));
+        }
+
+        Optional<Gallerist> optionalGallerist = galleristRepository.findById(galleristCarDTOIU.getCarId());
+        if (optionalGallerist.isEmpty()) {
+            throw new BaseException(new ErrorMessage(galleristCarDTOIU.getGalleristId().toString(), MessageType.NO_RECORD_EXIST));
+        }
+
+        Optional<Car> optionalCar = carRepository.findById(galleristCarDTOIU.getCarId());
+        if (optionalCar.isEmpty()) {
+            throw new BaseException(new ErrorMessage(galleristCarDTOIU.getCarId().toString(), MessageType.NO_RECORD_EXIST));
+        }
+
+        GalleristCar existingGalleristCar = optionalGalleristCar.get();
+        existingGalleristCar.setGallerist(optionalGallerist.get());
+        existingGalleristCar.setCar(optionalCar.get());
+
+        GalleristCar updatedGalleristCar = galleristCarRepository.save(existingGalleristCar);
+
+        GalleristCarDTO galleristCarDTO = new GalleristCarDTO();
+        GalleristDTO  galleristDTO = new GalleristDTO();
+        CarDTO carDTO = new CarDTO();
+        AddressDTO addressDTO = new AddressDTO();
+
+        BeanUtils.copyProperties(updatedGalleristCar, galleristCarDTO);
+        BeanUtils.copyProperties(updatedGalleristCar.getGallerist(), galleristDTO);
+        BeanUtils.copyProperties(updatedGalleristCar.getCar(), carDTO);
+        BeanUtils.copyProperties(updatedGalleristCar.getGallerist().getAddress(), addressDTO);
+
+        galleristDTO.setAddress(addressDTO);
+        galleristCarDTO.setGallerist(galleristDTO);
+        galleristCarDTO.setCar(carDTO);
+        return galleristCarDTO;
+    }
+
+    @Override
+    public String deleteGalleristCar(Long id) {
+        Optional<GalleristCar> optionalGalleristCar = galleristCarRepository.findById(id);
+        if (optionalGalleristCar.isEmpty()) {
+            throw new BaseException(new ErrorMessage(id.toString(), MessageType.NO_RECORD_EXIST));
+        }
+
+        galleristCarRepository.deleteById(id);
+        return "Galerici-Araba kaydı başarıyla silindi!";
     }
 }
