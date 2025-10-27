@@ -102,7 +102,7 @@ public class GalleristCarServiceImpl implements IGalleristCarService {
             throw new BaseException(new ErrorMessage(id.toString(), MessageType.NO_RECORD_EXIST));
         }
 
-        Optional<Gallerist> optionalGallerist = galleristRepository.findById(galleristCarDTOIU.getCarId());
+        Optional<Gallerist> optionalGallerist = galleristRepository.findById(galleristCarDTOIU.getGalleristId());
         if (optionalGallerist.isEmpty()) {
             throw new BaseException(new ErrorMessage(galleristCarDTOIU.getGalleristId().toString(), MessageType.NO_RECORD_EXIST));
         }
