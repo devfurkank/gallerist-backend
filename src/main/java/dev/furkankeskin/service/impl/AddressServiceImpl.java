@@ -8,7 +8,6 @@ import dev.furkankeskin.exception.MessageType;
 import dev.furkankeskin.model.Address;
 import dev.furkankeskin.repository.AddressRepository;
 import dev.furkankeskin.service.IAddressService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

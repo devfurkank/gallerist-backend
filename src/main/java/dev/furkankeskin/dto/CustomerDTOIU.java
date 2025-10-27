@@ -1,9 +1,5 @@
 package dev.furkankeskin.dto;
 
-import dev.furkankeskin.model.Account;
-import dev.furkankeskin.model.Address;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
