@@ -21,7 +21,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -113,6 +115,44 @@ public class SaledCarServiceImpl implements ISaledCarService {
         customerRepository.save(customer);
 
         return toDTO(savedSaledCar);
+    }
+
+    @Override
+    public List<SaledCarDTO> getAllSaledCars() {
+        List<SaledCar> saledCars = saledCarRepository.findAll();
+        List<SaledCarDTO> saledCarDTOs = new ArrayList<>();
+        for (SaledCar saledCar : saledCars) {
+            saledCarDTOs.add(toDTO(saledCar));
+        }
+        return saledCarDTOs;
+    }
+
+    @Override
+    public SaledCarDTO updateSaledCar(Long id, SaledCarDTOIU saledCarDTOIU) {
+        Optional<SaledCar> optionalSaledCar = saledCarRepository.findById(id);
+        if (optionalSaledCar.isEmpty()) {
+            throw new BaseException(new ErrorMessage(id.toString(), MessageType.NO_RECORD_EXIST));
+        }
+
+        SaledCar saledCar = optionalSaledCar.get();
+
+        saledCar.setCustomer(customerRepository.findById(saledCarDTOIU.getCustomerId()).orElse(null));
+        saledCar.setGallerist(galleristRepository.findById(saledCarDTOIU.getGalleristId()).orElse(null));
+        saledCar.setCar(carRepository.findById(saledCarDTOIU.getCarId()).orElse(null));
+
+        SaledCar updatedSaledCar = saledCarRepository.save(saledCar);
+        return toDTO(updatedSaledCar);
+    }
+
+    @Override
+    public String deleteSaledCar(Long id) {
+        Optional<SaledCar> optionalSaledCar = saledCarRepository.findById(id);
+        if (optionalSaledCar.isEmpty()) {
+            throw new BaseException(new ErrorMessage(id.toString(), MessageType.NO_RECORD_EXIST));
+        }
+
+        saledCarRepository.delete(optionalSaledCar.get());
+        return "Satış kaydı başarıyla silindi!";
     }
 
     public SaledCarDTO toDTO(SaledCar saledCar) {
