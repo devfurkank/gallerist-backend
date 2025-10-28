@@ -1,488 +1,254 @@
-# 🚗 Gallerist - Araba Galerisi Yönetim Sistemi
+# 🚗 Gallerist Backend API
 
-Gallerist, modern araba galerilerinin ihtiyaçlarını karşılamak üzere geliştirilmiş kapsamlı bir backend yönetim sistemidir. Spring Boot framework'ü kullanılarak geliştirilmiş, güvenli, ölçeklenebilir ve profesyonel bir RESTful API uygulamasıdır.
+A comprehensive RESTful API for automotive dealership management system built with Spring Boot and Java 21. This backend system provides complete functionality for managing car inventory, sales, customers, gallerists, and financial operations.
 
-## 📋 İçindekiler
+## 📋 Table of Contents
 
-- [Özellikler](#-özellikler)
-- [Teknoloji Yığını](#-teknoloji-yığını)
-- [Proje Yapısı](#-proje-yapısı)
-- [Veritabanı Şeması](#-veritabanı-şeması)
-- [Kurulum](#-kurulum)
-- [Kullanım](#-kullanım)
-- [API Endpoints](#-api-endpoints)
-- [Güvenlik](#-güvenlik)
-- [Konfigürasyon](#-konfigürasyon)
+- [Overview](#overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Architecture](#architecture)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [API Documentation](#api-documentation)
+- [Database Schema](#database-schema)
+- [Security](#security)
+- [Development](#development)
 
-## ✨ Özellikler
+## 🎯 Overview
 
-### 🔐 Kimlik Doğrulama ve Yetkilendirme
-- JWT (JSON Web Token) tabanlı kimlik doğrulama
-- Refresh token mekanizması
-- Spring Security entegrasyonu
-- Kullanıcı kayıt ve giriş sistemi
-- Stateless authentication yapısı
+The Gallerist Backend API is a robust enterprise-level application designed to streamline automotive dealership operations. It provides a complete solution for managing:
 
-### 🚙 Araç Yönetimi
-- Araç ekleme, güncelleme, silme ve listeleme
-- Plaka, marka, model, üretim yılı takibi
-- Fiyat ve döviz türü yönetimi
-- Hasar bedeli takibi
-- Araç durumu takibi (Satılabilir/Satıldı)
-- Döviz kuru entegrasyonu
+- **Vehicle Inventory**: Track cars, their status, pricing, and availability
+- **Sales Management**: Process car sales with comprehensive transaction tracking
+- **Customer Relations**: Manage customer information and purchase history
+- **Gallerist Operations**: Handle dealer/gallerist information and assignments
+- **Financial Tracking**: Multi-currency support and account management
+- **User Authentication**: Secure JWT-based authentication with refresh tokens
 
-### 👤 Galericiler Yönetimi
-- Galerici bilgileri yönetimi
-- Adres bilgisi entegrasyonu
-- Galerici-araç ilişkilendirmesi
-- Satış geçmişi takibi
+## ✨ Features
 
-### 🧑‍💼 Müşteri Yönetimi
-- Müşteri bilgileri yönetimi (Ad, Soyad, TCKN)
-- Doğum tarihi takibi
-- Adres bilgisi yönetimi
-- Hesap bilgisi entegrasyonu
-- Satın alınan araçlar geçmişi
+### Core Functionality
 
-### 💰 Hesap Yönetimi
-- Müşteri hesap bilgileri
-- IBAN doğrulaması
-- Hesap bakiyesi takibi
-- Döviz türü desteği
+- **🚘 Car Management**
+  - Complete vehicle lifecycle tracking (Available, Sold, Reserved, Service, Accident)
+  - Multi-currency pricing support (TRY, USD, EUR)
+  - Damage/repair cost tracking
+  - Vehicle details (brand, model, year, license plate)
 
-### 📍 Adres Yönetimi
-- Detaylı adres bilgisi yönetimi
-- İl, ilçe, mahalle bilgisi
-- Açık adres ve posta kodu
+- **👥 Customer Management**
+  - Customer profile management
+  - Address integration
+  - Purchase history tracking
 
-### 📊 Satış Yönetimi
-- Araç satış kayıtları
-- Galerici-Müşteri-Araç ilişkilendirmesi
-- Satış geçmişi ve raporlama
-- Unique constraint'ler ile veri bütünlüğü
+- **🏢 Gallerist Management**
+  - Dealer information management
+  - Address association
+  - Vehicle assignment tracking
 
-### 💱 Döviz Kuru Entegrasyonu
-- Anlık döviz kurları
-- Farklı para birimleri desteği (TRY, USD, EUR)
-- Otomatik fiyat hesaplama
+- **💰 Sales & Inventory**
+  - Complete sales transaction processing
+  - Inventory management with gallerist-car assignments
+  - Real-time inventory status updates
 
-## 🛠 Teknoloji Yığını
+- **💵 Financial Operations**
+  - Multi-currency account management
+  - Real-time currency rate tracking
+  - Transaction history
 
-### Backend Framework
-- **Spring Boot 3.5.6** - Ana application framework
-- **Java 21** - Programlama dili
-- **Maven** - Bağımlılık yönetimi ve build tool
+- **🔐 Authentication & Security**
+  - JWT-based authentication
+  - Refresh token mechanism
+  - Role-based access control
+  - Secure password encryption
 
-### Veritabanı
-- **PostgreSQL** - İlişkisel veritabanı
-- **Spring Data JPA** - ORM ve veritabanı erişimi
-- **Hibernate** - JPA implementasyonu
+### Technical Features
 
-### Güvenlik
-- **Spring Security** - Uygulama güvenliği
-- **JWT (JJWT 0.12.6)** - Token tabanlı kimlik doğrulama
-  - jjwt-api
-  - jjwt-impl
-  - jjwt-jackson
+- RESTful API design
+- Service-oriented architecture
+- JPA/Hibernate ORM with PostgreSQL
+- Request validation with Bean Validation
+- Comprehensive error handling
+- CORS support
+- Automatic database schema management
 
-### Yardımcı Kütüphaneler
-- **Lombok** - Boilerplate kod azaltma
-- **Spring Validation** - Veri doğrulama
-- **Spring Web** - RESTful web servisleri
+## 🛠 Technology Stack
 
-### Test
-- **Spring Boot Test** - Unit ve integration testler
-- **Spring Security Test** - Güvenlik testleri
+### Core Technologies
 
-## 📁 Proje Yapısı
+- **Java 21** - Latest LTS version
+- **Spring Boot 3.5.6** - Application framework
+- **Spring Security** - Authentication & authorization
+- **Spring Data JPA** - Data persistence
+- **PostgreSQL** - Relational database
+- **Maven** - Dependency management
+
+### Key Dependencies
+
+```xml
+<!-- Authentication & Security -->
+- Spring Boot Security
+- JWT (JJWT 0.12.6)
+
+<!-- Data & Persistence -->
+- Spring Data JPA
+- PostgreSQL JDBC Driver
+- Hibernate Validator
+
+<!-- Development -->
+- Lombok
+- Spring Boot DevTools
+```
+
+## 🏗 Architecture
+
+### Project Structure
 
 ```
 gallerist/
-├── src/
-│   ├── main/
-│   │   ├── java/dev/furkankeskin/
-│   │   │   ├── config/              # Konfigürasyon sınıfları
-│   │   │   │   ├── AppConfig.java
-│   │   │   │   └── SecurityConfig.java
-│   │   │   ├── controller/          # REST Controller'lar
-│   │   │   │   ├── impl/           # Controller implementasyonları
-│   │   │   │   ├── IRestAccountController.java
-│   │   │   │   ├── IRestAddressController.java
-│   │   │   │   ├── IRestAuthenticationController.java
-│   │   │   │   ├── IRestCarController.java
-│   │   │   │   ├── IRestCurrencyRatesController.java
-│   │   │   │   ├── IRestCustomerController.java
-│   │   │   │   ├── IRestGalleristCarController.java
-│   │   │   │   ├── IRestGalleristController.java
-│   │   │   │   ├── IRestSaledCarController.java
-│   │   │   │   ├── RestBaseController.java
-│   │   │   │   └── RootEntity.java
-│   │   │   ├── dto/                 # Data Transfer Objects
-│   │   │   │   ├── AccountDTO.java
-│   │   │   │   ├── AccountDTOIU.java
-│   │   │   │   ├── AddressDTO.java
-│   │   │   │   ├── AddressDTOIU.java
-│   │   │   │   ├── AuthRequest.java
-│   │   │   │   ├── AuthResponse.java
-│   │   │   │   ├── BaseDTO.java
-│   │   │   │   ├── CarDTO.java
-│   │   │   │   ├── CarDTOIU.java
-│   │   │   │   ├── CurrencyRatesItems.java
-│   │   │   │   ├── CurrencyRatesResponse.java
-│   │   │   │   ├── CustomerDTO.java
-│   │   │   │   ├── CustomerDTOIU.java
-│   │   │   │   ├── GalleristCarDTO.java
-│   │   │   │   ├── GalleristCarDTOIU.java
-│   │   │   │   ├── GalleristDTO.java
-│   │   │   │   ├── GalleristDTOIU.java
-│   │   │   │   ├── RefreshTokenRequest.java
-│   │   │   │   ├── SaledCarDTO.java
-│   │   │   │   ├── SaledCarDTOIU.java
-│   │   │   │   └── UserDTO.java
-│   │   │   ├── enums/               # Enum türleri
-│   │   │   │   ├── CarStatusType.java (SALABLE, SALED)
-│   │   │   │   └── CurrencyType.java
-│   │   │   ├── exception/           # Exception yönetimi
-│   │   │   │   ├── BaseException.java
-│   │   │   │   ├── ErrorMessage.java
-│   │   │   │   └── MessageType.java
-│   │   │   ├── gallerist/          # Main application
-│   │   │   │   └── GalleristApplication.java
-│   │   │   ├── handler/             # Exception handler'lar
-│   │   │   │   ├── ApiError.java
-│   │   │   │   ├── AuthEntryPoint.java
-│   │   │   │   ├── Exception.java
-│   │   │   │   └── GlobalExceptionHandler.java
-│   │   │   ├── jwt/                 # JWT yönetimi
-│   │   │   │   ├── JWTAuthenticationFilter.java
-│   │   │   │   └── JWTService.java
-│   │   │   ├── model/               # Entity sınıfları
-│   │   │   │   ├── Account.java
-│   │   │   │   ├── Address.java
-│   │   │   │   ├── BaseEntity.java
-│   │   │   │   ├── Car.java
-│   │   │   │   ├── Customer.java
-│   │   │   │   ├── Gallerist.java
-│   │   │   │   ├── GalleristCar.java
-│   │   │   │   ├── RefreshToken.java
-│   │   │   │   ├── SaledCar.java
-│   │   │   │   └── User.java
-│   │   │   ├── repository/          # JPA Repository'ler
-│   │   │   │   ├── AccountRepository.java
-│   │   │   │   ├── AddressRepository.java
-│   │   │   │   ├── CarRepository.java
-│   │   │   │   ├── CustomerRepository.java
-│   │   │   │   ├── GalleristCarRepository.java
-│   │   │   │   ├── GalleristRepository.java
-│   │   │   │   ├── RefreshTokenRepository.java
-│   │   │   │   ├── SaledCarRepository.java
-│   │   │   │   └── UserRepository.java
-│   │   │   ├── service/             # Business logic
-│   │   │   │   ├── impl/           # Service implementasyonları
-│   │   │   │   ├── IAccountService.java
-│   │   │   │   ├── IAddressService.java
-│   │   │   │   ├── IAuthenticationService.java
-│   │   │   │   ├── ICarService.java
-│   │   │   │   ├── ICurrencyRatesService.java
-│   │   │   │   ├── ICustomerService.java
-│   │   │   │   ├── IGalleristCarService.java
-│   │   │   │   ├── IGalleristService.java
-│   │   │   │   └── ISaledCarService.java
-│   │   │   └── utils/               # Yardımcı sınıflar
-│   │   │       └── DateUtils.java
-│   │   └── resources/
-│   │       ├── application.properties
-│   │       ├── static/
-│   │       └── templates/
-│   └── test/
-│       └── java/dev/furkankeskin/gallerist/
-│           └── GalleristApplicationTests.java
-├── pom.xml
-└── README.md
+├── src/main/java/dev/furkankeskin/
+│   ├── config/              # Configuration classes
+│   │   ├── AppConfig.java
+│   │   └── SecurityConfig.java
+│   ├── controller/          # REST Controllers
+│   │   ├── impl/            # Controller implementations
+│   │   ├── IRestAccountController.java
+│   │   ├── IRestAddressController.java
+│   │   ├── IRestAuthenticationController.java
+│   │   ├── IRestCarController.java
+│   │   ├── IRestCurrencyRatesController.java
+│   │   ├── IRestCustomerController.java
+│   │   ├── IRestGalleristCarController.java
+│   │   ├── IRestGalleristController.java
+│   │   ├── IRestSaledCarController.java
+│   │   └── RestBaseController.java
+│   ├── dto/                 # Data Transfer Objects (21 DTOs)
+│   ├── enums/               # Enumerations
+│   │   ├── CarStatusType.java
+│   │   └── CurrencyType.java
+│   ├── exception/           # Custom exceptions
+│   ├── handler/             # Exception handlers
+│   ├── jwt/                 # JWT utilities
+│   ├── model/               # JPA Entities
+│   │   ├── Account.java
+│   │   ├── Address.java
+│   │   ├── BaseEntity.java
+│   │   ├── Car.java
+│   │   ├── Customer.java
+│   │   ├── Gallerist.java
+│   │   ├── GalleristCar.java
+│   │   ├── RefreshToken.java
+│   │   ├── SaledCar.java
+│   │   └── User.java
+│   ├── repository/          # JPA Repositories (9 repositories)
+│   ├── service/             # Business logic layer
+│   │   ├── impl/            # Service implementations
+│   │   └── Interface definitions
+│   └── utils/               # Utility classes
+└── src/main/resources/
+    ├── application.properties
+    ├── static/
+    └── templates/
 ```
 
-## 🗄 Veritabanı Şeması
+### Design Patterns
 
-### Ana Tablolar
+- **Layered Architecture**: Controller → Service → Repository → Entity
+- **Interface-Based Design**: All services and controllers use interfaces
+- **DTO Pattern**: Separation of internal models and API contracts
+- **Repository Pattern**: Data access abstraction with Spring Data JPA
+- **Builder Pattern**: Lombok @Builder for entity creation
+- **Singleton Pattern**: Spring bean management
 
-#### 🚗 Car (Araç)
-- **id**: Primary Key
-- **plaka**: Araç plakası
-- **brand**: Marka
-- **model**: Model
-- **production_year**: Üretim yılı
-- **price**: Fiyat
-- **currency_type**: Döviz türü (ENUM: TRY, USD, EUR)
-- **damage_price**: Hasar bedeli
-- **car_status_type**: Araç durumu (ENUM: SALABLE, SALED)
+## 📦 Prerequisites
 
-#### 👤 Gallerist (Galerici)
-- **id**: Primary Key
-- **first_name**: Ad
-- **last_name**: Soyad
-- **address_id**: Adres referansı (One-to-One)
+Before you begin, ensure you have the following installed:
 
-#### 🧑‍💼 Customer (Müşteri)
-- **id**: Primary Key
-- **first_name**: Ad
-- **last_name**: Soyad
-- **tckn**: TC Kimlik Numarası
-- **birth_date**: Doğum tarihi
-- **address_id**: Adres referansı (One-to-One)
-- **account_id**: Hesap referansı (One-to-One)
+- **Java 21** or higher ([Download](https://www.oracle.com/java/technologies/downloads/))
+- **Maven 3.8+** (included via Maven Wrapper)
+- **PostgreSQL 14+** ([Download](https://www.postgresql.org/download/))
+- **IDE** (IntelliJ IDEA, Eclipse, or VS Code)
 
-#### 💰 Account (Hesap)
-- **id**: Primary Key
-- **account_no**: Hesap numarası
-- **iban**: IBAN numarası
-- **amount**: Bakiye
-- **currency_type**: Döviz türü (ENUM)
+## 🚀 Installation
 
-#### 📍 Address (Adres)
-- **id**: Primary Key
-- **city**: İl
-- **district**: İlçe
-- **neighborhood**: Mahalle
-- **street**: Sokak/Cadde
-- **postal_code**: Posta kodu
+### 1. Clone the Repository
 
-#### 🔗 GalleristCar (Galerici-Araç İlişkisi)
-- **id**: Primary Key
-- **gallerist_id**: Galerici referansı (Many-to-One)
-- **car_id**: Araç referansı (Many-to-One)
-- **Unique Constraint**: (gallerist_id, car_id)
-
-#### 💼 SaledCar (Satılmış Araç)
-- **id**: Primary Key
-- **gallerist_id**: Galerici referansı (Many-to-One)
-- **car_id**: Araç referansı (Many-to-One)
-- **customer_id**: Müşteri referansı (Many-to-One)
-- **Unique Constraint**: (gallerist_id, car_id, customer_id)
-
-#### 👨‍💼 User (Kullanıcı)
-- **id**: Primary Key
-- **username**: Kullanıcı adı
-- **password**: Şifre (hash'lenmiş)
-
-#### 🔄 RefreshToken
-- **id**: Primary Key
-- **token**: Refresh token
-- **user_id**: Kullanıcı referansı
-
-### İlişkiler
-- **Customer ↔ Account**: One-to-One
-- **Customer ↔ Address**: One-to-One
-- **Gallerist ↔ Address**: One-to-One
-- **GalleristCar ↔ Gallerist**: Many-to-One
-- **GalleristCar ↔ Car**: Many-to-One
-- **SaledCar ↔ Gallerist**: Many-to-One
-- **SaledCar ↔ Car**: Many-to-One
-- **SaledCar ↔ Customer**: Many-to-One
-
-## 🚀 Kurulum
-
-### Ön Gereksinimler
-
-- Java 21 veya üzeri
-- Maven 3.6+
-- PostgreSQL 12+
-- IDE (IntelliJ IDEA, Eclipse, VS Code önerilir)
-
-### Adım Adım Kurulum
-
-1. **Projeyi Klonlayın**
 ```bash
 git clone <repository-url>
-cd gallerist
+cd gallerist-backend/gallerist
 ```
 
-2. **PostgreSQL Veritabanını Oluşturun**
+### 2. Database Setup
+
+Create a PostgreSQL database and schema:
+
 ```sql
+-- Connect to PostgreSQL
+psql -U postgres
+
+-- Create database (if not exists)
 CREATE DATABASE postgres;
+
+-- Create schema
 CREATE SCHEMA gallerist;
 ```
 
-3. **Veritabanı Kullanıcısını Yapılandırın**
+### 3. Configure Database Connection
 
-`src/main/resources/application.properties` dosyasını düzenleyin:
+Edit `src/main/resources/application.properties`:
 
 ```properties
+spring.application.name=gallerist
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
 spring.jpa.properties.hibernate.default_schema=gallerist
-spring.datasource.username=your_username
+spring.datasource.username=postgres
 spring.datasource.password=your_password
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
 ```
 
-4. **Bağımlılıkları İndirin**
+### 4. Build the Project
+
+Using Maven Wrapper (recommended):
+
+```bash
+# Unix/Linux/Mac
+./mvnw clean install
+
+# Windows
+mvnw.cmd clean install
+```
+
+Or using Maven directly:
+
 ```bash
 mvn clean install
 ```
 
-5. **Uygulamayı Çalıştırın**
+### 5. Run the Application
+
 ```bash
+# Using Maven Wrapper
+./mvnw spring-boot:run
+
+# Or using Maven
 mvn spring-boot:run
+
+# Or run the JAR file
+java -jar target/gallerist-0.0.1-SNAPSHOT.jar
 ```
 
-veya IDE üzerinden `GalleristApplication.java` dosyasını çalıştırın.
+The application will start on `http://localhost:8080`
 
-Uygulama varsayılan olarak `http://localhost:8080` adresinde başlayacaktır.
+## ⚙️ Configuration
 
-## 💻 Kullanım
+### Application Properties
 
-### 1. Kullanıcı Kaydı
-```bash
-POST /register
-Content-Type: application/json
+Key configuration options in `application.properties`:
 
-{
-  "username": "kullanici_adi",
-  "password": "sifre"
-}
-```
-
-### 2. Giriş Yapma
-```bash
-POST /authenticate
-Content-Type: application/json
-
-{
-  "username": "kullanici_adi",
-  "password": "sifre"
-}
-```
-
-Yanıt:
-```json
-{
-  "data": {
-    "accessToken": "eyJhbGciOiJIUzI1NiIs...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIs..."
-  }
-}
-```
-
-### 3. Token Yenileme
-```bash
-POST /refresh_token
-Content-Type: application/json
-
-{
-  "refreshToken": "eyJhbGciOiJIUzI1NiIs..."
-}
-```
-
-### 4. Korumalı Endpoint'lere Erişim
-```bash
-GET /api/v1/cars
-Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
-```
-
-## 🔌 API Endpoints
-
-### 🔐 Authentication (Public)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| POST | `/register` | Yeni kullanıcı kaydı |
-| POST | `/authenticate` | Kullanıcı girişi |
-| POST | `/refresh_token` | Token yenileme |
-
-### 🚗 Car Management (Protected)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/v1/car` | Tüm araçları listele |
-| GET | `/api/v1/car/{id}` | Belirli aracı getir |
-| POST | `/api/v1/car` | Yeni araç ekle |
-| PUT | `/api/v1/car/{id}` | Araç güncelle |
-| DELETE | `/api/v1/car/{id}` | Araç sil |
-
-### 👤 Gallerist Management (Protected)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/v1/gallerist` | Tüm galericileri listele |
-| GET | `/api/v1/gallerist/{id}` | Belirli galericiyi getir |
-| POST | `/api/v1/gallerist` | Yeni galerici ekle |
-| PUT | `/api/v1/gallerist/{id}` | Galerici güncelle |
-| DELETE | `/api/v1/gallerist/{id}` | Galerici sil |
-
-### 🧑‍💼 Customer Management (Protected)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/v1/customer` | Tüm müşterileri listele |
-| GET | `/api/v1/customer/{id}` | Belirli müşteriyi getir |
-| POST | `/api/v1/customer` | Yeni müşteri ekle |
-| PUT | `/api/v1/customer/{id}` | Müşteri güncelle |
-| DELETE | `/api/v1/customer/{id}` | Müşteri sil |
-
-### 💰 Account Management (Protected)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/v1/account` | Tüm hesapları listele |
-| GET | `/api/v1/account/{id}` | Belirli hesabı getir |
-| POST | `/api/v1/account` | Yeni hesap ekle |
-| PUT | `/api/v1/account/{id}` | Hesap güncelle |
-| DELETE | `/api/v1/account/{id}` | Hesap sil |
-
-### 📍 Address Management (Protected)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/v1/address` | Tüm adresleri listele |
-| GET | `/api/v1/address/{id}` | Belirli adresi getir |
-| POST | `/api/v1/address` | Yeni adres ekle |
-| PUT | `/api/v1/address/{id}` | Adres güncelle |
-| DELETE | `/api/v1/address/{id}` | Adres sil |
-
-### 🔗 GalleristCar Management (Protected)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/v1/gallerist-car` | Tüm galerici-araç ilişkilerini listele |
-| GET | `/api/v1/gallerist-car/{id}` | Belirli ilişkiyi getir |
-| POST | `/api/v1/gallerist-car` | Yeni ilişki ekle |
-| PUT | `/api/v1/gallerist-car/{id}` | İlişki güncelle |
-| DELETE | `/api/v1/gallerist-car/{id}` | İlişki sil |
-
-### 💼 SaledCar Management (Protected)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/v1/saled-car` | Tüm satışları listele |
-| GET | `/api/v1/saled-car/{id}` | Belirli satışı getir |
-| POST | `/api/v1/saled-car` | Yeni satış kaydı ekle |
-| PUT | `/api/v1/saled-car/{id}` | Satış güncelle |
-| DELETE | `/api/v1/saled-car/{id}` | Satış sil |
-
-### 💱 Currency Rates (Protected)
-| Method | Endpoint | Açıklama |
-|--------|----------|----------|
-| GET | `/api/v1/currency-rates` | Güncel döviz kurlarını getir |
-
-## 🔒 Güvenlik
-
-### JWT Token Yapısı
-Uygulama, JWT (JSON Web Token) tabanlı stateless authentication kullanır:
-
-- **Access Token**: Kısa ömürlü (önerilen: 15-30 dakika), API erişimi için kullanılır
-- **Refresh Token**: Uzun ömürlü (önerilen: 7-30 gün), access token yenilemek için kullanılır
-
-### Security Configuration
-```java
-- Public Endpoints: /register, /authenticate, /refresh_token
-- Protected Endpoints: /api/v1/** (JWT token gerektirir)
-- CSRF: Disabled (Stateless API)
-- Session Management: STATELESS
-```
-
-### Password Encoding
-- Şifreler BCrypt algoritması ile hash'lenir
-- Salt değeri otomatik oluşturulur
-- Plain text şifreler asla veritabanında saklanmaz
-
-### Authorization Header Format
-```
-Authorization: Bearer <access_token>
-```
-
-## ⚙️ Konfigürasyon
-
-### application.properties
 ```properties
 # Application Name
 spring.application.name=gallerist
@@ -497,15 +263,21 @@ spring.datasource.password=your_password
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
-# JWT Configuration (Recommended to add)
-# jwt.secret=your-256-bit-secret-key
-# jwt.expiration=900000
-# jwt.refresh.expiration=604800000
+# Server Configuration (optional)
+server.port=8080
+server.servlet.context-path=/
+
+# JWT Configuration (add these)
+jwt.secret=your-secret-key-here
+jwt.expiration=3600000
+jwt.refresh.expiration=86400000
 ```
 
-### Environment Variables (Önerilen)
-Güvenlik için hassas bilgileri environment variable olarak kullanın:
+### Environment Variables
+
+For production, use environment variables:
 
 ```bash
 export DB_URL=jdbc:postgresql://localhost:5432/postgres
@@ -514,91 +286,604 @@ export DB_PASSWORD=your_password
 export JWT_SECRET=your-secret-key
 ```
 
-## 🏗 Mimari Kararlar
+## 📚 API Documentation
 
-### Katmanlı Mimari
-Proje, klasik katmanlı mimari (Layered Architecture) prensiplerine uygun olarak geliştirilmiştir:
+## 📝 API Summary
 
-1. **Controller Layer**: HTTP isteklerini karşılar, validasyon ve response formatı
-2. **Service Layer**: Business logic ve iş kuralları
-3. **Repository Layer**: Veritabanı erişimi ve CRUD işlemleri
-4. **Model Layer**: Entity sınıfları ve veritabanı şeması
+### All Endpoints Overview
 
-### Interface-Implementation Pattern
-- Tüm controller ve service'ler interface-implementation pattern ile yazılmıştır
-- Loose coupling ve test edilebilirlik sağlar
-- Dependency injection kolaylaşır
+**Authentication (Public)**
+- `POST /register` - User registration
+- `POST /authenticate` - User login
+- `POST /refresh_token` - Token refresh
 
-### DTO Pattern
-- Entity'ler direkt olarak client'a expose edilmez
-- DTO'lar ile data transfer sağlanır
-- DTOIU (Insert/Update DTO'ları) ile farklı operasyonlar için farklı validasyonlar
+**Cars (Protected)**
+- `POST /rest/api/car/save` - Create car
+- `GET /rest/api/car/list` - List cars
+- `PUT /rest/api/car/update/{id}` - Update car
+- `DELETE /rest/api/car/delete/{id}` - Delete car
 
-### Base Entity Pattern
-- Ortak alanlar (id, createDate, updateDate) BaseEntity'de tanımlanmış
-- Code reusability sağlanmış
-- Audit trail için hazır altyapı
+**Gallerists (Protected)**
+- `POST /rest/api/gallerist/save` - Create gallerist
+- `GET /rest/api/gallerist/list` - List gallerists
+- `PUT /rest/api/gallerist/update/{id}` - Update gallerist
+- `DELETE /rest/api/gallerist/delete/{id}` - Delete gallerist
 
-## 🔄 Geliştirme Notları
+**Customers (Protected)**
+- `POST /rest/api/customer/save` - Create customer
+- `GET /rest/api/customer/list` - List customers
+- `PUT /rest/api/customer/update/{id}` - Update customer
+- `DELETE /rest/api/customer/delete/{id}` - Delete customer
 
-### Hibernate DDL Auto
-Proje şu anda `spring.jpa.hibernate.ddl-auto=update` kullanıyor. Production ortamı için:
-- `validate` kullanın
-- Veritabanı migrasyonları için Liquibase veya Flyway kullanımı önerilir
+**Inventory (Protected)**
+- `POST /rest/api/gallerist-car/save` - Assign car to gallerist
+- `GET /rest/api/gallerist-car/list` - List inventory
+- `PUT /rest/api/gallerist-car/update/{id}` - Update assignment
+- `DELETE /rest/api/gallerist-car/delete/{id}` - Remove assignment
 
-### Logging
-- SQL logları development için aktif
-- Production'da `spring.jpa.show-sql=false` olmalı
-- Centralized logging sistemi (ELK Stack) entegrasyonu önerilir
+**Sales (Protected)**
+- `POST /rest/api/saled-car/save` - Record sale
+- `GET /rest/api/saled-car/list` - List sales
+- `PUT /rest/api/saled-car/update/{id}` - Update sale
+- `DELETE /rest/api/saled-car/delete/{id}` - Delete sale
 
-### Exception Handling
-- Global exception handler ile merkezi hata yönetimi
-- Custom exception'lar (BaseException)
-- Standartlaştırılmış error response'lar
+**Addresses (Protected)**
+- `POST /rest/api/address/save` - Create address
+- `GET /rest/api/address/list` - List addresses
+- `PUT /rest/api/address/update/{id}` - Update address
+- `DELETE /rest/api/address/delete/{id}` - Delete address
 
-## 📊 Performans Optimizasyonu
+**Accounts (Protected)**
+- `POST /rest/api/account/save` - Create account
+- `GET /rest/api/account/list` - List accounts
+- `PUT /rest/api/account/update/{id}` - Update account
+- `DELETE /rest/api/account/delete/{id}` - Delete account
 
-### Öneriler
-1. **Database Indexing**: Sık sorgulanan alanlara index ekleyin
-2. **Caching**: Redis ile caching mekanizması
-3. **Connection Pooling**: HikariCP configuration
-4. **Lazy/Eager Loading**: JPA fetch type optimizasyonu
-5. **Pagination**: Büyük listeler için sayfalama
+**Currency Rates (Protected)**
+- `GET /rest/api/currency-rates?startDate={start}&endDate={end}` - Get rates
 
-## 🧪 Test
+### Base URL
 
-Test çalıştırma:
-```bash
-mvn test
+```
+http://localhost:8080
 ```
 
-Test coverage raporu:
-```bash
-mvn jacoco:report
+### Authentication Endpoints
+
+#### Register User
+```http
+POST /register
+Content-Type: application/json
+
+{
+  "username": "string",
+  "password": "string",
+  "email": "string"
+}
 ```
 
-## 📝 Lisans
+#### Login
+```http
+POST /authenticate
+Content-Type: application/json
 
-Bu proje özel bir projedir ve tüm hakları saklıdır.
+{
+  "username": "string",
+  "password": "string"
+}
 
-## 👨‍💻 Geliştirici
+Response:
+{
+  "payload": {
+    "accessToken": "string",
+    "refreshToken": "string"
+  }
+}
+```
+
+#### Refresh Token
+```http
+POST /refresh_token
+Content-Type: application/json
+
+{
+  "refreshToken": "string"
+}
+```
+
+### Protected Endpoints
+
+All endpoints below require JWT authentication:
+```http
+Authorization: Bearer <access_token>
+```
+
+#### Car Management
+
+**Create Car**
+```http
+POST /rest/api/car/save
+Content-Type: application/json
+Authorization: Bearer <access_token>
+
+Request Body:
+{
+  "plaka": "34ABC123",
+  "brand": "BMW",
+  "model": "320i",
+  "productionYear": 2022,
+  "price": 850000.00,
+  "currencyType": "TL",
+  "damagePrice": 0.00,
+  "carStatusType": "SALABLE"
+}
+
+Response:
+{
+  "payload": {
+    "id": 1,
+    "plaka": "34ABC123",
+    "brand": "BMW",
+    "model": "320i",
+    "productionYear": 2022,
+    "price": 850000.00,
+    "currencyType": "TL",
+    "damagePrice": 0.00,
+    "carStatusType": "SALABLE",
+    "createTime": "2024-01-15T10:30:00"
+  }
+}
+```
+
+**List All Cars**
+```http
+GET /rest/api/car/list
+Authorization: Bearer <access_token>
+
+Response:
+{
+  "payload": [
+    {
+      "id": 1,
+      "plaka": "34ABC123",
+      "brand": "BMW",
+      "model": "320i",
+      "productionYear": 2022,
+      "price": 850000.00,
+      "currencyType": "TRY",
+      "damagePrice": 0.00,
+      "carStatusType": "AVAILABLE",
+      "createTime": "2024-01-15T10:30:00"
+    }
+  ]
+}
+```
+
+**Update Car**
+```http
+PUT /rest/api/car/update/{id}
+Content-Type: application/json
+Authorization: Bearer <access_token>
+
+Request Body: Same as Create
+```
+
+**Delete Car**
+```http
+DELETE /rest/api/car/delete/{id}
+Authorization: Bearer <access_token>
+
+Response:
+{
+  "payload": "Car deleted successfully"
+}
+```
+
+#### Gallerist Management
+
+```http
+POST    /rest/api/gallerist/save            # Create new gallerist
+GET     /rest/api/gallerist/list            # List all gallerists
+PUT     /rest/api/gallerist/update/{id}     # Update gallerist
+DELETE  /rest/api/gallerist/delete/{id}     # Delete gallerist
+
+Request Body (Save/Update):
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "addressId": 1
+}
+```
+
+#### Customer Management
+
+```http
+POST    /rest/api/customer/save           # Create new customer
+GET     /rest/api/customer/list           # List all customers
+PUT     /rest/api/customer/update/{id}    # Update customer
+DELETE  /rest/api/customer/delete/{id}    # Delete customer
+
+Request Body (Save/Update):
+{
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "tckn": "12345678901",
+  "birthDate": "1990-01-15",
+  "addressId": 1,
+  "accountId": 1
+}
+```
+
+#### Inventory Management
+
+```http
+POST    /rest/api/gallerist-car/save            # Assign car to gallerist
+GET     /rest/api/gallerist-car/list            # List inventory
+PUT     /rest/api/gallerist-car/update/{id}     # Update assignment
+DELETE  /rest/api/gallerist-car/delete/{id}     # Remove assignment
+
+Request Body (Save/Update):
+{
+  "galleristId": 1,
+  "carId": 1
+}
+```
+
+#### Sales Management
+
+```http
+POST    /rest/api/saled-car/save          # Record new sale (buy car)
+GET     /rest/api/saled-car/list          # List all sales
+PUT     /rest/api/saled-car/update/{id}   # Update sale
+DELETE  /rest/api/saled-car/delete/{id}   # Delete sale
+
+Request Body (Save/Update):
+{
+  "galleristId": 1,
+  "carId": 1,
+  "customerId": 1
+}
+```
+
+#### Address Management
+
+```http
+POST    /rest/api/address/save           # Create new address
+GET     /rest/api/address/list           # List all addresses
+PUT     /rest/api/address/update/{id}    # Update address
+DELETE  /rest/api/address/delete/{id}    # Delete address
+
+Request Body (Save/Update):
+{
+  "city": "Istanbul",
+  "district": "Kadikoy",
+  "neighborhood": "Moda",
+  "street": "Bahariye Cad. No:123"
+}
+```
+
+#### Account Management
+
+```http
+POST    /rest/api/account/save           # Create new account
+GET     /rest/api/account/list           # List all accounts
+PUT     /rest/api/account/update/{id}    # Update account
+DELETE  /rest/api/account/delete/{id}    # Delete account
+
+Request Body (Save/Update):
+{
+  "accountNo": "123456789",
+  "iban": "TR330006100519786457841326",
+  "amount": 50000.00,
+  "currencyType": "TRY"
+}
+```
+
+#### Currency Rates
+
+```http
+GET /rest/api/currency-rates?startDate={startDate}&endDate={endDate}
+Authorization: Bearer <access_token>
+
+Example:
+GET /rest/api/currency-rates?startDate=2024-01-01&endDate=2024-01-31
+
+Response:
+{
+  "payload": {
+    "rates": [
+      {
+        "date": "2024-01-15",
+        "USD": 29.50,
+        "EUR": 32.10,
+        "TRY": 1.00
+      }
+    ]
+  }
+}
+
+Note: This endpoint fetches currency exchange rates from external API for the specified date range.
+```
+
+## 🗄 Database Schema
+
+### Core Entities
+
+#### Car
+```sql
+- id (BIGINT, PK)
+- plaka (VARCHAR) - License plate
+- brand (VARCHAR)
+- model (VARCHAR)
+- production_year (INTEGER)
+- price (DECIMAL)
+- currency_type (VARCHAR) - ENUM: TRY, USD, EUR
+- damage_price (DECIMAL)
+- car_status_type (VARCHAR) - ENUM: AVAILABLE, SOLD, RESERVED, SERVICE, ACCIDENT
+- create_time (TIMESTAMP)
+```
+
+#### Gallerist
+```sql
+- id (BIGINT, PK)
+- first_name (VARCHAR)
+- last_name (VARCHAR)
+- address_id (BIGINT, FK) - OneToOne relation with Address
+- create_time (TIMESTAMP)
+```
+
+#### Customer
+```sql
+- id (BIGINT, PK)
+- first_name (VARCHAR)
+- last_name (VARCHAR)
+- tckn (VARCHAR) - Turkish Identity Number
+- birth_date (DATE)
+- address_id (BIGINT, FK) - OneToOne relation with Address
+- account_id (BIGINT, FK) - OneToOne relation with Account
+- create_time (TIMESTAMP)
+```
+
+#### GalleristCar (Inventory)
+```sql
+- id (BIGINT, PK)
+- gallerist_id (BIGINT, FK) - ManyToOne relation with Gallerist
+- car_id (BIGINT, FK) - ManyToOne relation with Car
+- create_time (TIMESTAMP)
+- UNIQUE CONSTRAINT: (gallerist_id, car_id)
+```
+
+#### SaledCar (Sales)
+```sql
+- id (BIGINT, PK)
+- gallerist_id (BIGINT, FK) - ManyToOne relation with Gallerist
+- car_id (BIGINT, FK) - ManyToOne relation with Car
+- customer_id (BIGINT, FK) - ManyToOne relation with Customer
+- create_time (TIMESTAMP)
+- UNIQUE CONSTRAINT: (gallerist_id, car_id, customer_id)
+```
+
+#### Account
+```sql
+- id (BIGINT, PK)
+- account_no (VARCHAR)
+- iban (VARCHAR)
+- amount (DECIMAL)
+- currency_type (VARCHAR) - ENUM: TRY, USD, EUR
+- create_time (TIMESTAMP)
+```
+
+#### Address
+```sql
+- id (BIGINT, PK)
+- city (VARCHAR)
+- street (VARCHAR)
+- district (VARCHAR)
+- neighborhood (VARCHAR)
+- create_time (TIMESTAMP)
+```
+
+### Base Entity
+
+All entities extend from `BaseEntity` which provides:
+```sql
+- id (BIGINT, PK) - Auto-generated primary key
+- create_time (TIMESTAMP) - Record creation timestamp
+```
+
+### Enumerations
+
+#### CarStatusType
+- `SALABLE` - Car is available for sale
+- `SALED` - Car has been sold
+
+#### CurrencyType
+- `TL` - Turkish Lira
+- `USD` - US Dollar
+
+### Important Notes
+
+1. **Field Naming Conventions**:
+   - Backend uses camelCase for DTO fields (e.g., `firstName`, `plaka`)
+   - Database columns use snake_case (e.g., `first_name`, `create_time`)
+   
+2. **Timestamp Fields**:
+   - Only `create_time` is stored (no separate update time)
+   - All timestamps are managed by the application
+
+3. **Relationships**:
+   - `GalleristCar` and `SaledCar` use ManyToOne relationships
+   - `Customer`, `Gallerist` use OneToOne relationships with Address and Account
+   - Unique constraints prevent duplicate assignments
+
+## 🔐 Security
+
+### Authentication Flow
+
+1. **Registration**: User registers with username, email, and password
+2. **Login**: User authenticates and receives JWT access token and refresh token
+3. **Authorization**: Each request includes JWT token in Authorization header
+4. **Token Refresh**: When access token expires, use refresh token to get new access token
+
+### Security Features
+
+- **Password Encryption**: BCrypt password hashing
+- **JWT Tokens**: Stateless authentication
+- **Refresh Tokens**: Secure token renewal mechanism
+- **CORS Configuration**: Controlled cross-origin access
+- **SQL Injection Prevention**: JPA parameterized queries
+- **XSS Protection**: Input validation and sanitization
+
+### Public Endpoints
+
+The following endpoints are publicly accessible:
+- `/register` - User registration
+- `/authenticate` - User login
+- `/refresh_token` - Token refresh
+
+All other endpoints require authentication.
+
+## 🔧 Development
+
+### Running in Development Mode
+
+```bash
+# Enable Spring Boot DevTools auto-reload
+./mvnw spring-boot:run
+
+# Enable debug logging
+./mvnw spring-boot:run -Dspring-boot.run.arguments="--logging.level.dev.furkankeskin=DEBUG"
+```
+
+### IDE Setup
+
+#### IntelliJ IDEA
+
+1. Import as Maven project
+2. Enable annotation processing (Settings → Build → Compiler → Annotation Processors)
+3. Install Lombok plugin
+4. Set JDK to Java 21
+
+#### VS Code
+
+1. Install extensions:
+   - Language Support for Java
+   - Spring Boot Extension Pack
+   - Lombok Annotations Support
+2. Configure Java SDK path
+3. Reload project
+
+### Code Style
+
+- Follow Java naming conventions
+- Use Lombok annotations to reduce boilerplate
+- Write meaningful method and variable names
+- Document complex business logic
+- Keep methods focused and small
+
+### Adding New Features
+
+1. **Create Entity**: Add new JPA entity in `model/`
+2. **Create Repository**: Extend JpaRepository in `repository/`
+3. **Create DTOs**: Add request/response DTOs in `dto/`
+4. **Create Service**: Implement business logic in `service/`
+5. **Create Controller**: Add REST endpoints in `controller/`
+6. **Test**: Write unit and integration tests
+
+## 📦 Building for Production
+
+### Create Production Build
+
+```bash
+# Build JAR file
+./mvnw clean package -DskipTests
+
+# The JAR will be created in target/
+# gallerist-0.0.1-SNAPSHOT.jar
+```
+
+### Running in Production
+
+```bash
+# Run with production profile
+java -jar target/gallerist-0.0.1-SNAPSHOT.jar \
+  --spring.profiles.active=production \
+  --spring.datasource.url=jdbc:postgresql://prod-host:5432/postgres \
+  --spring.datasource.username=prod_user \
+  --spring.datasource.password=prod_password
+```
+
+### Production Checklist
+
+- [ ] Set `spring.jpa.hibernate.ddl-auto=validate` or `none`
+- [ ] Disable SQL logging (`spring.jpa.show-sql=false`)
+- [ ] Use environment variables for sensitive data
+- [ ] Enable HTTPS/SSL
+- [ ] Set appropriate CORS policies
+- [ ] Configure proper logging levels
+- [ ] Set up monitoring and health checks
+- [ ] Enable rate limiting
+- [ ] Configure database connection pooling
+
+## 🐳 Docker Deployment
+
+### Dockerfile
+
+```dockerfile
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY target/gallerist-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+### Docker Compose
+
+```yaml
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  gallerist-api:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+volumes:
+  postgres_data:
+```
+
+### Run with Docker
+
+```bash
+# Build and run
+docker-compose up -d
+
+# View logs
+docker-compose logs -f gallerist-api
+
+# Stop
+docker-compose down
+```
+
+## 👨‍💻 Author
 
 **Furkan Keskin**
 - GitHub: [@devfurkank](https://github.com/devfurkank)
-
-## 🤝 Katkıda Bulunma
-
-1. Bu repository'yi fork edin
-2. Feature branch oluşturun (`git checkout -b feature/AmazingFeature`)
-3. Değişikliklerinizi commit edin (`git commit -m 'Add some AmazingFeature'`)
-4. Branch'inizi push edin (`git push origin feature/AmazingFeature`)
-5. Pull Request oluşturun
-
-## 📮 İletişim
-
-Sorularınız veya önerileriniz için lütfen issue açın veya pull request gönderin.
-
----
-
-⭐ Bu projeyi beğendiyseniz yıldız vermeyi unutmayın!
-
+- Package: dev.furkankeskin
